@@ -15,6 +15,16 @@ int main() {
 		    53, 59, 61, 67, 71};
   int factors[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
+  int *primesPtr;
+  int numPrevPrimes = 20;
+  char primesRealloc = 0;
+  int *factorsPtr;
+  int numFactors = 1;
+  char factorsRealloc = 0;
+
+  primesPtr = calloc(numPrevPrimes, sizeof(primesPtr[0]));
+  factorsPtr = calloc(numFactors, sizeof(factorsPtr[0]));
+
   int tbfcopy, tbf = 2;
   int tot;
   int i, j, k;
@@ -49,6 +59,14 @@ int main() {
   while (factors[k]) {
     factors[k++] = 0;
   }
+  if (factorsRealloc == 1) {
+    factorsPtr = realloc(factorsPtr, numFactors * sizeof(factorsPtr[0]));
+  }
+
+  // populate list of primes
+  if (primesRealloc == 1) {
+    primesPtr = realloc(primesPtr, numPrevPrimes * sizeof(primesPtr[0]));
+  }
 
   // find factors
   while (tbfcopy != 1 && i < (sizeof(primes)/sizeof(primes[0]))) {
@@ -72,6 +90,7 @@ int main() {
   // output
   printf("%d:\t", tbf);
 
+  //  int n = numFactors;
   int n = sizeof(factors) / sizeof(factors[0]);
   for (i = 0; i < j; i++) {
     // if it's the last factor to display
@@ -149,6 +168,9 @@ int main() {
 
   // lists all prime factorizations from 2 to 60
   if (tbf++ < 60) goto START; // comment out unless using table method
+
+  free(factorsPtr);
+  free(primesPtr);
 
   return 0;
 }
